@@ -85,7 +85,7 @@
 				FA0D975729BC34D900655724 /* Headers */,
 			);
 			name = SDK;
-			path = ../Lilu/build/Debug/Lilu.kext/Contents/Resources;
+			path = Lilu.kext/Contents/Resources;
 			sourceTree = "<group>";
 		};
 		FA0D975029BC34D900655724 /* Library */ = {
