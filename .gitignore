@@ -1,0 +1,7 @@
+/build
+/DerivedData
+/Lilu.kext
+/MacKernelSDK
+project.xcworkspace
+xcshareddata
+xcuserdata
