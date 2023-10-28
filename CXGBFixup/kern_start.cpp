@@ -35,7 +35,7 @@ PluginConfiguration ADDPR(config) {
     .betaArg       = bootargBeta,
     .betaArgNum    = arrsize(bootargBeta),
     .minKernel     = KernelVersion::Catalina,
-    .maxKernel     = KernelVersion::Ventura,
+    .maxKernel     = KernelVersion::Sonoma,
     .pluginStart   = []() {
         cxgbfx.init();
     }

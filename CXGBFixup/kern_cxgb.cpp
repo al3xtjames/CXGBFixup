@@ -14,7 +14,7 @@ const char *CXGBFX::kextPaths[] { "/Library/Extensions/cxgb.kext" };
 
 IOReturn CXGBFX::setPowerState(void *that, unsigned long state, IOService *service) {
     auto ret = FunctionCast(setPowerState, callbackCXGBFX->orgSetPowerState)(that, state, service);
-    DBGLOG("cxgbfx", "setPowerState(state=%lu) -> %#lx", state, ret);
+    DBGLOG("cxgbfx", "setPowerState(state=%lu) -> %#x", state, ret);
 
     if (ret == kIOPMAckImplied && state == 2) {
         auto ret = FunctionCast(cxgb_change_mtu, callbackCXGBFX->orgChangeMTU)(that, callbackCXGBFX->savedMTU);
