@@ -16,10 +16,10 @@ IOReturn CXGBFX::setPowerState(void *that, unsigned long state, IOService *servi
     auto ret = FunctionCast(setPowerState, callbackCXGBFX->orgSetPowerState)(that, state, service);
     DBGLOG("cxgbfx", "setPowerState(state=%lu) -> %#x", state, ret);
 
-    if (ret == kIOPMAckImplied && state == 2) {
-        auto ret = FunctionCast(cxgb_change_mtu, callbackCXGBFX->orgChangeMTU)(that, callbackCXGBFX->savedMTU);
-        if (ret != 0) {
-            SYSLOG("cxgbfx", "cxgb_change_mtu(%d) failed (%d)", callbackCXGBFX->savedMTU, ret);
+    if (callbackCXGBFX->savedMTU != 0 && ret == kIOPMAckImplied && state == 2) {
+        auto ret2 = FunctionCast(cxgb_change_mtu, callbackCXGBFX->orgChangeMTU)(that, callbackCXGBFX->savedMTU);
+        if (ret2 != 0) {
+            SYSLOG("cxgbfx", "cxgb_change_mtu(%d) failed (%d)", callbackCXGBFX->savedMTU, ret2);
         }
     }
 
@@ -85,10 +85,9 @@ void CXGBFX::processKext(KernelPatcher &patcher, size_t index, mach_vm_address_t
             /* .symbol = */ "__ZN24com_chelsio_driver_cxgb415cxgb_change_mtuEi",
             /* .to     = */ cxgb_change_mtu,
             /* .org    = */ orgChangeMTU
-
         }
     };
-    
+
     if (!patcher.routeMultiple(index, requests, slide, size)) {
         SYSLOG("cxgbfx", "failed to route functions (%d)", patcher.getError());
         return;
